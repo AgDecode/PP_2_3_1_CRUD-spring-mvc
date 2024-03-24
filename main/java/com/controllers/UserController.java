@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("person") @Valid User user,
+    public String create(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "user/new";
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @RequestParam("id") int id) {
         if (bindingResult.hasErrors())
             return "user/edit";
