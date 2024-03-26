@@ -1,6 +1,6 @@
 package com.controllers;
 
-import com.dao.UserDAO;
+import com.dao.UserDAOImpl;
 import com.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,22 +13,22 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserDAO userDAO;
+    private final UserDAOImpl userDAOImpl;
 
     @Autowired
-    public UserController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserController(UserDAOImpl userDAOImpl) {
+        this.userDAOImpl = userDAOImpl;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userDAO.index());
+        model.addAttribute("users", userDAOImpl.index());
         return "user/index";
     }
 
     @GetMapping("/show")
     public String show(@RequestParam("id") int id, Model model) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userDAOImpl.show(id));
         return "user/show";
     }
 
@@ -44,13 +44,13 @@ public class UserController {
         if (bindingResult.hasErrors())
             return "user/new";
 
-        userDAO.save(user);
+        userDAOImpl.save(user);
         return "redirect:/user";
     }
 
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userDAOImpl.show(id));
         return "user/edit";
     }
 
@@ -60,13 +60,13 @@ public class UserController {
         if (bindingResult.hasErrors())
             return "user/edit";
 
-        userDAO.update(id, user);
+        userDAOImpl.update(id, user);
         return "redirect:/user";
     }
 
     @PostMapping("/delete")
     public String delete(@RequestParam("id") int id) {
-        userDAO.delete(id);
+        userDAOImpl.delete(id);
         return "redirect:/user";
     }
 }
